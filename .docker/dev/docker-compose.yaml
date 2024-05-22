@@ -1,0 +1,9 @@
+name: oauth-pingfederate
+services:
+  dev:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=8.3
+    volumes:
+      - ../../:/var/www/package

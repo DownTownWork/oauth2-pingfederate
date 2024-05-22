@@ -1,0 +1,75 @@
+name: oauth-pingfederate-test
+services:
+  php72:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=7.2
+    volumes:
+      - ../../:/var/www/package
+  php73:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=7.3
+    volumes:
+      - ../../:/var/www/package
+    depends_on:
+      php72:
+        condition: service_completed_successfully
+        restart: false
+  php74:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=7.4
+    volumes:
+      - ../../:/var/www/package
+    depends_on:
+      php73:
+        condition: service_completed_successfully
+        restart: false
+  php80:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=8.0
+    volumes:
+      - ../../:/var/www/package
+    depends_on:
+      php74:
+        condition: service_completed_successfully
+        restart: false
+  php81:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=8.1
+    volumes:
+      - ../../:/var/www/package
+    depends_on:
+      php80:
+        condition: service_completed_successfully
+        restart: false
+  php82:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=8.2
+    volumes:
+      - ../../:/var/www/package
+    depends_on:
+      php81:
+        condition: service_completed_successfully
+        restart: false
+  php83:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=8.3
+    volumes:
+      - ../../:/var/www/package
+    depends_on:
+      php82:
+        condition: service_completed_successfully
+        restart: false

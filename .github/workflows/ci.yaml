@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  pull_request: ~
+  push:
+    branches: [ master ]
+
+jobs:
+  coding-standars:
+    name: Coding standards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Composer install
+        uses: php-actions/composer@v6
+      - name: PHP Code Sniffer
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: "8.3"
+          standard: PSR12
+          path: .
+          ignore: "*vendor/*"
+
+  static-analysis:
+    name: Code static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Composer install
+        uses: php-actions/composer@v6
+      - uses: php-actions/phpstan@v3
+        with:
+          path: ./src ./tests
+
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+          - "8.1"
+          - "8.2"
+          - "8.3"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Composer install
+        uses: php-actions/composer@v6
+        with:
+          php_version: ${{ matrix.php-version }}
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v3
+        env:
+          XDEBUG_MODE: coverage
+        with:
+          configuration: phpunit.xml
+          php_extensions: xdebug
+          args: tests --coverage-clover ./coverage.xml
+          test_suffix: ""
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage.xml
+          verbose: true

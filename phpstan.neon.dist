@@ -1,0 +1,15 @@
+parameters:
+	level: 6
+	paths:
+		- src
+		- tests
+	ignoreErrors:
+		- 
+			message: '#\$token \(League\\OAuth2\\Client\\Token\\AccessToken\) does not accept League\\OAuth2\\Client\\Token\\AccessTokenInterface\.$#'
+			path: tests/Provider/AccessTokenTest.php
+		- 
+			message: '#^Parameter \#1 \$token of method League\\OAuth2\\Client\\Provider\\AbstractProvider\:\:getResourceOwner\(\) expects League\\OAuth2\\Client\\Token\\AccessToken\, League\\OAuth2\\Client\\Token\\AccessTokenInterface given\.$#'
+			path: tests/Provider/UserInfoTest.php
+		- 
+			message: '#\$user \(DownTownWork\\OAuth2\\Client\\Provider\\PingFederateResourceOwner\) does not accept League\\OAuth2\\Client\\Provider\\ResourceOwnerInterface\.$#'
+			path: tests/Provider/UserInfoTest.php
