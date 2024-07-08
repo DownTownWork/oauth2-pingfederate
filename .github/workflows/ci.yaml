@@ -39,20 +39,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version:
-          - "7.2"
-          - "7.3"
-          - "7.4"
-          - "8.0"
-          - "8.1"
-          - "8.2"
-          - "8.3"
+        php:
+          - version: "7.1"
+            composer: "2.2"
+          - version: "7.2"
+            composer: "latest"
+          - version: "7.3"
+            composer: "latest"
+          - version: "7.4"
+            composer: "latest"
+          - version: "8.0"
+            composer: "latest"
+          - version: "8.1"
+            composer: "latest"
+          - version: "8.2"
+            composer: "latest"
+          - version: "8.3"
+            composer: "latest"
     steps:
       - uses: actions/checkout@v2
       - name: Composer install
         uses: php-actions/composer@v6
         with:
-          php_version: ${{ matrix.php-version }}
+          php_version: ${{ matrix.php.version }}
+          version: ${{ matrix.php.composer }}
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
         env:

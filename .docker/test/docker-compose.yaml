@@ -1,5 +1,13 @@
 name: oauth-pingfederate-test
 services:
+  php71:
+    build:
+      context: .
+      args:
+        - PHP_VERSION=7.1
+        - COMPOSER_VERSION=2.2
+    volumes:
+      - ../../:/var/www/package
   php72:
     build:
       context: .
@@ -7,6 +15,10 @@ services:
         - PHP_VERSION=7.2
     volumes:
       - ../../:/var/www/package
+    depends_on:
+      php71:
+        condition: service_completed_successfully
+        restart: false
   php73:
     build:
       context: .
